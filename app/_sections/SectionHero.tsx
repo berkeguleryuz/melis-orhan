@@ -49,19 +49,51 @@ export function SectionHero() {
 
   return (
     <section
-      className="relative min-h-svh overflow-hidden bg-black"
+      className="relative min-h-svh overflow-hidden bg-black flex flex-col justify-center md:block"
       data-section-dark
     >
-      {/* Fullscreen video */}
+      {/* Mobile decorative backdrop — warm dark gradient instead of bare bars */}
+      <div
+        aria-hidden
+        className="absolute inset-0 md:hidden bg-[radial-gradient(ellipse_at_top,#2c2017_0%,#150f0b_55%,#0a0706_100%)]"
+      />
+
+      {/* Top panel — mobile only: couple names + tagline fill the upper space */}
+      <div className="relative z-0 md:hidden flex-1 flex flex-col items-center justify-center text-center px-6 pt-24 pb-5">
+        <span className="font-sans text-[0.7rem] tracking-[0.35em] uppercase text-[#c9a96e]">
+          {t("heroTagline")}
+        </span>
+        <h1 className="mt-3 font-merienda text-5xl text-[#f5ede1] leading-[1.05]">
+          {wedding.brideName}
+          <span className="block font-sans text-xl text-[#c9a96e] my-1">&amp;</span>
+          {wedding.groomName}
+        </h1>
+      </div>
+
+      {/* Video — contained block on mobile (no crop), full cover on desktop */}
       <video
         autoPlay
         muted
         playsInline
         preload="auto"
         onEnded={handleVideoEnd}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="relative z-0 w-full aspect-video object-cover md:absolute md:inset-0 md:h-full md:aspect-auto"
         src="/6.mp4"
       />
+
+      {/* Bottom panel — mobile only: date, venue + scroll hint fill the lower space */}
+      <div className="relative z-0 md:hidden flex-1 flex flex-col items-center justify-center text-center gap-4 px-6 pt-5 pb-28">
+        <div className="w-12 h-px bg-[#c9a96e]/60" />
+        <p className="font-sans text-xs tracking-[0.18em] text-[#e7dccb]">
+          {formattedDate}
+          {wedding.venueName && (
+            <span className="text-[#c9a96e]/70"> &middot; {wedding.venueName}</span>
+          )}
+        </p>
+        <span className="font-sans text-[0.65rem] tracking-[0.3em] uppercase text-[#c9a96e]/70">
+          {t("heroScrollHint")}
+        </span>
+      </div>
 
       {/* "Save the Date" reveal — white bg, black text, word by word */}
       <AnimatePresence>
