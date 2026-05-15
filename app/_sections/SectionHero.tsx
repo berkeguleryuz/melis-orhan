@@ -60,7 +60,7 @@ export function SectionHero() {
         preload="auto"
         onEnded={handleVideoEnd}
         className="absolute inset-0 w-full h-full object-cover"
-        src="/kadinerkek-compressed.mp4"
+        src="/6.mp4"
       />
 
       {/* "Save the Date" reveal — white bg, black text, word by word */}
