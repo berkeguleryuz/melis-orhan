@@ -43,16 +43,16 @@ function getMilestones(brideFirst: string, groomFirst: string): Milestone[] {
       image: fallbackImages[1],
     },
     {
+      date: "Evlilik Teklifi",
+      title: "Evet!",
+      description: `${groomFirst} diz çöktü ve ${brideFirst}'e hayatının sorusunu sordu. Cevap tabii ki "Evet!" oldu.`,
+      image: fallbackImages[2],
+    },
+    {
       date: "Birlikte",
       title: "Aşk Büyüdü",
       description:
         "Her geçen gün birbirlerini daha iyi tanıdılar, birlikte yeni anıların kapısını aralayarak hayatlarını birleştirdiler.",
-      image: fallbackImages[2],
-    },
-    {
-      date: "Evlilik Teklifi",
-      title: "Evet!",
-      description: `${groomFirst} diz çöktü ve ${brideFirst}'e hayatının sorusunu sordu. Cevap tabii ki "Evet!" oldu.`,
       image: fallbackImages[3],
     },
     {
