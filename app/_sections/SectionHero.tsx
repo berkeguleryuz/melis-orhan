@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useWedding } from "../_lib/context";
@@ -35,6 +35,7 @@ function playChime() {
 export function SectionHero() {
   const wedding = useWedding();
   const [videoEnded, setVideoEnded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const formattedDate = useMemo(() => {
     if (!wedding.weddingDate) return "";
@@ -45,6 +46,23 @@ export function SectionHero() {
   const handleVideoEnd = useCallback(() => {
     setVideoEnded(true);
     playChime();
+  }, []);
+
+  // Video sadece zarf açıldıktan sonra başlasın — overlay arkasında oynayıp
+  // ziyaretçi siteye girmeden Save the Date moduna geçmesin diye.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const start = () => {
+      v.currentTime = 0;
+      v.play().catch(() => {});
+    };
+    if (document.documentElement.classList.contains("mo-envelope-seen")) {
+      start();
+      return;
+    }
+    window.addEventListener("mo:envelope-opened", start, { once: true });
+    return () => window.removeEventListener("mo:envelope-opened", start);
   }, []);
 
   return (
@@ -72,7 +90,7 @@ export function SectionHero() {
 
       {/* Video — contained block on mobile (no crop), full cover on desktop */}
       <video
-        autoPlay
+        ref={videoRef}
         muted
         playsInline
         preload="auto"

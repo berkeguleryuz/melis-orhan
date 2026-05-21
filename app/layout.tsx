@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Merienda, Space_Grotesk } from "next/font/google";
+import {
+  Cormorant_Garamond,
+  Geist,
+  Merienda,
+  Space_Grotesk,
+} from "next/font/google";
 import { Toaster } from "sonner";
 import { WeddingProvider } from "./_lib/context";
 import { getWeddingData } from "./_lib/wedding-data";
@@ -14,6 +19,18 @@ const merienda = Merienda({
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
+  subsets: ["latin", "latin-ext"],
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin", "latin-ext"],
 });
 
@@ -64,12 +81,19 @@ export default async function RootLayout({
     <html
       lang="tr"
       suppressHydrationWarning
-      className={`${merienda.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={`${merienda.variable} ${spaceGrotesk.variable} ${cormorant.variable} ${geist.variable} h-full antialiased`}
     >
       <body
         className="min-h-full flex flex-col bg-white text-[#1a1210]"
         suppressHydrationWarning
       >
+        {/* Zarf intro FOUC engeli: anahtar EnvelopeIntro.tsx içindeki STORAGE_KEY ile aynı olmalı. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(sessionStorage.getItem('mo-envelope-opened')==='1')document.documentElement.classList.add('mo-envelope-seen')}catch(e){}",
+          }}
+        />
         <WeddingProvider data={weddingData}>
           <div className="relative min-h-screen overflow-x-hidden">
             <RoseNav />
